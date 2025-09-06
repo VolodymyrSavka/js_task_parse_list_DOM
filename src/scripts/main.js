@@ -1,8 +1,5 @@
 'use strict';
 
-/* const list = document.getElementsByTagName('li');
-const array = [...list]; */
-
 function getSalary(item) {
   const salaryString = item.dataset.salary;
   const cleanedString = salaryString.replace(/[$,]/g, '');
@@ -10,8 +7,9 @@ function getSalary(item) {
   return Number(cleanedString);
 }
 
-function getEmployees(list) {
-  const employeesArray = [...list];
+function getEmployees(parentList) {
+  const items = parentList.querySelectorAll('li');
+  const employeesArray = [...items];
   const employeeObjects = employeesArray.map((item) => {
     return {
       name: item.textContent.trim(),
@@ -24,21 +22,18 @@ function getEmployees(list) {
   return employeeObjects;
 }
 
-function sortList(list) {
-  const ar = [...list].sort((a, b) => {
+function sortList(parentList) {
+  const items = Array.from(parentList.children);
+  const ar = items.sort((a, b) => {
     return getSalary(b) - getSalary(a);
   });
-
-  const parentList = list[0].parentNode;
-
-  parentList.innerHTML = '';
 
   ar.forEach((item) => {
     parentList.appendChild(item);
   });
 }
 
-const lists = document.getElementsByTagName('li');
+const list = document.querySelector('ul');
 
-sortList(lists);
-getEmployees(lists);
+sortList(list);
+getEmployees(list);
